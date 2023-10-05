@@ -1,5 +1,14 @@
 <?php
-require_once  'config.php' ;
+
+
+$servername = "mysql:host=mysql";
+$username = getenv("MYSQL_USER");
+$password_db = getenv("MYSQL_PASSWORD");
+$dbname = getenv("MYSQL_DATABASE");
+
+
+
+$conn = new PDO("$servername;dbname=$dbname; charset=utf8", $username, $password_db);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $title = $_POST['title'];
@@ -13,8 +22,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Insérer les données dans la table "Book"
     try {
-        $stmt = $pdo->prepare("INSERT INTO Book (title, author, publication_year) VALUES (?, ?, ?)");
-        $stmt->execute([$title, $author, $publication_year]);
+        $sql = "CREATE TABLE categories (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255) NOT NULL)";
+        $stmt = $conn->prepare($sql);
+        $stmt->execute();
         echo "Livre créé avec succès !";
     } catch (PDOException $e) {
         die("Erreur : " . $e->getMessage());
@@ -32,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body>
     <h1>Créer un nouveau livre</h1>
-    <form action="process_create_book.php" method="POST">
+    <form action="" method="POST">
         <label for="title">Titre :</label>
         <input type="text" id="title" name="title" required><br>
 
