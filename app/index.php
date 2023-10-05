@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Créer un livre</title>
+    <title>Créer une table</title>
 </head>
 <body>
     <h1>Créer un nouveau livre</h1>
@@ -52,7 +52,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <label for="publication_year">Année de publication :</label>
         <input type="text" id="publication_year" name="publication_year" required><br>
 
-        <input type="submit" value="Créer le livre">
+        <input type="submit" value="Créer la table">
     </form>
+
+    <script>
+        function addColumn() {
+            const columnsDiv = document.getElementById('columns');
+            const newColumn = document.createElement('div');
+            newColumn.classList.add('column');
+            newColumn.innerHTML = `
+                <label for="column_name[]">Nom de la colonne :</label>
+                <input type="text" name="column_name[]" required>
+                <label for="column_type[]">Type de la colonne :</label>
+                <input type="text" name="column_type[]" required>
+                <button type="button" class="delete-column" onclick="deleteColumn(this)">Supprimer</button>
+            `;
+            columnsDiv.appendChild(newColumn);
+        }
+
+        function deleteColumn(button) {
+            const columnDiv = button.parentElement;
+            const columnsDiv = document.getElementById('columns');
+            columnsDiv.removeChild(columnDiv);
+        }
+    </script>
 </body>
 </html>
+
